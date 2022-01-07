@@ -5,7 +5,6 @@ RUN apt-get update \
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip --no-cache-dir install -r /tmp/pip-tmp/requirements.txt
 RUN rm -rf /tmp/pip-tmp
-RUN pip install uwsgi
 
 WORKDIR /app
 COPY ./src .

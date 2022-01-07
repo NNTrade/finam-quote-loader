@@ -1,7 +1,6 @@
 from finam import Market,Timeframe, Exporter,LookupComparator
 import datetime
 from .excepiton import ArgsException
-from typing import Dict
 import pandas as pd
 
 def load_quote(**kwargs):
@@ -15,7 +14,7 @@ def load_quote(**kwargs):
                 .reindex(["DT","O","H","L","C","V"], axis=1)
     return df
 
-def parse_args(args:Dict)->Dict:
+def parse_args(args):
     stock =  args.get('code')
     market =  args.get('market')
     date_from = args.get('from')

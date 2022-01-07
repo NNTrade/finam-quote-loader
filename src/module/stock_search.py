@@ -1,5 +1,6 @@
 from finam import Market, LookupComparator, Exporter, FinamObjectNotFoundError
 import pandas as pd
+from .excepiton import ArgsException
 
 def get_stock(**kwargs):
     if 'code' in kwargs.keys():
@@ -10,8 +11,8 @@ def get_stock(**kwargs):
         return pd.DataFrame()
     
 def parse_args(args):
-    market = request.args.get('market')
-    code = request.args.get('code')
+    market = args.get('market')
+    code = args.get('code')
     args = {}
     
     ex = ArgsException()
