@@ -10,7 +10,7 @@ from .controllers import stock
 from .controllers import models
 
 app = Flask(__name__)
-api: Api = Api(app, version='1.1', title='Sample API',
+api: Api = Api(app, version='2.0', title='Sample API',
                description='A sample API')
 
 stockModel = api.model('stock', models.stock)
