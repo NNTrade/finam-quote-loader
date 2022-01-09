@@ -1,3 +1,4 @@
 finam-export @ git+https://github.com/InsonusK/finam-export.git
 flask
 pandas
+flask-restx

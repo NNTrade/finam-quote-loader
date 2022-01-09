@@ -1,6 +1,4 @@
-FROM python:3.9
-RUN apt-get update \
-    && apt-get -y install git
+FROM finam-quote-loader/base-img
 
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip --no-cache-dir install -r /tmp/pip-tmp/requirements.txt

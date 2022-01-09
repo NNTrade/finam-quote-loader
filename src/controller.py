@@ -1,42 +1,68 @@
-from flask import Flask, request
+from flask import Flask
 from .module.market_search import get_all_markets
 from .module.timeframe_search import get_all_timeframe
-from .module.stock_search import get_stock, parse_args as stock_parse_args
-from .module.quote_loader import parse_args as quote_parse_args, load_quote
+from .module.stock_search import get_stock
+from .module.quote_loader import load_quote
 from .module.excepiton import ArgsException
-import json
+from flask_restx import Api, Resource, fields
+from .controllers import quote
+from .controllers import stock
+from .controllers import models
 
 app = Flask(__name__)
-          
-@app.route("/timeframe")
-def timeframe():
-    return ";".join(get_all_timeframe())
+api: Api = Api(app, version='1.1', title='Sample API',
+               description='A sample API')
 
-@app.route('/markets')
-def market():
-    return ";".join(get_all_markets())
+stockModel = api.model('stock', models.stock)
+quoteModel = api.model('quote', models.quote)
+errorModel = api.model('error', models.fieldError)
 
-@app.route('/stock')
-def stock():
-    try:
-        args = stock_parse_args(request.args)
-    except ArgsException as ex:
-        return ex.to_output(), 400
-    df = get_stock(**args)   
-    return str(json.loads(df.to_json(orient="records")))
 
-@app.route('/quote')
-def quote():
-    try:
-        args = quote_parse_args(request.args)
-    except ArgsException as ex:
-        return ex.to_output(), 400
-    df = load_quote(**args)
-    return str(json.loads(df.to_json(orient="records")))
+@api.route('/timeframe')
+class TimeframeController(Resource):
+
+    @api.response(200, 'List of timeframes', fields.List(fields.String))
+    def get(self):
+        return get_all_timeframe()
+
+
+@api.route('/market')
+class MarketController(Resource):
+
+    @api.response(200, 'List of markets', fields.List(fields.String))
+    def get(self):
+        return get_all_markets()
+
+
+@api.route('/stock')
+class MarketController(Resource):
+
+    @api.response(200, 'List of stocks', [stockModel])
+    @api.response(400, "Wrong query parameters", [errorModel])
+    @api.expect(stock.parser)
+    def get(self):
+        try:
+            args = stock.verify_args(**stock.parser.parse_args())
+        except ArgsException as ex:
+            return ex.to_output(), 400
+        df = get_stock(**args)
+        return df.to_dict(orient="records")
+
+
+@api.route('/quote')
+class QuoteController(Resource):
     
-@app.route('/')
-def hello():
-    return 'Hello, World!'
+    @api.response(200, 'List of quotes', [quoteModel])
+    @api.response(400, "Wrong query parameters", [errorModel])
+    @api.expect(quote.parser)
+    def get(self):
+        try:
+            args = quote.verify_args(**quote.parser.parse_args())
+        except ArgsException as ex:
+            return ex.to_output(), 400
+        df = load_quote(**args)
+        return df.to_dict(orient="records")
+
 
 if __name__ == "__main__":
-    app.run(use_reloader=True, debug=False)
+    app.run(use_reloader=True, debug=True)
