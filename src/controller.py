@@ -35,7 +35,7 @@ class MarketController(Resource):
 
 
 @api.route('/stock')
-class MarketController(Resource):
+class StockController(Resource):
 
     @api.response(200, 'List of stocks', [stockModel])
     @api.response(400, "Wrong query parameters", [errorModel])
