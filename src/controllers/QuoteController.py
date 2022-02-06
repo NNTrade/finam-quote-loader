@@ -1,17 +1,15 @@
 import logging
-from typing import Tuple
 from flask import Blueprint
 from flask_restx import Namespace, Resource, fields
 from flask_restx import reqparse
-
-from src.module.stock_search import by_code
+from ..module.stock_search import by_code
 from ..module.excepiton import ArgsException
 from finam.const import Market
 from . import models
 from ..module.quote_loader import load_quote
 from finam.exception import FinamObjectNotFoundError
 import datetime
-from finam import Exporter, Timeframe, LookupComparator
+from finam import Timeframe
 
 quote_controller = Blueprint('Quote controller', __name__)
 quote_controller_api = Namespace('Quote controller', 'Get quotes')

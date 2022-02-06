@@ -1,9 +1,10 @@
 from flask import Flask
+from flask_restx import Api
 from .controllers.TimeFrameController import timeframe_controller, timeframe_controller_api
 from .controllers.MarketController import market_controller, market_controller_api
 from .controllers.StockController import stock_controller,stock_controller_api
 from .controllers.QuoteController import quote_controller, quote_controller_api
-from flask_restx import Api
+
 
 app = Flask(__name__)
 api: Api = Api(app, version='2.0', title='Correlation calculator service',

@@ -1,6 +1,6 @@
 from finam import LookupComparator, Exporter, Market,FinamObjectNotFoundError
 import pandas as pd
-from finam import Exporter,Timeframe,LookupComparator
+from finam import Exporter,LookupComparator
 from typing import Tuple
 
 def get_stock(**kwargs):

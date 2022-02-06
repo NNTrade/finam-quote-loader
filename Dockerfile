@@ -10,7 +10,7 @@ COPY ./src .
 
 EXPOSE 5000
 
-ENV FLASK_APP web_app
+ENV FLASK_APP web_app.py
 ENV FLASK_ENV production
 ENV FLASK_DEBUG 0
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
