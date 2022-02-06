@@ -1,2 +1,2 @@
 # !/bin/bash 
-docker build -t finam-quote-loader:v3.1 --no-cache ..
+docker build -t finam-quote-loader:v3.2 --no-cache ..

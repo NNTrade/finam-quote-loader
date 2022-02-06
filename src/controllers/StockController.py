@@ -7,8 +7,7 @@ from finam.const import Market
 from ..module.stock_search import get_stock
 from . import models
 
-stock_controller = Blueprint('Stock controller', __name__)
-stock_controller_api = Namespace('Stock controller','Get stock list in market')
+stock_controller_api = Namespace('stock','Get stock list in market')
 
 parser = reqparse.RequestParser()
 parser.add_argument('market', type=str, help='market name', location='args')
@@ -18,7 +17,7 @@ stock = {"id" : fields.Integer, "code": fields.String, "name":fields.String, "ma
 stockModel = stock_controller_api.model('stock', stock)
 errorModel = stock_controller_api.model('error', models.fieldError)
 
-@stock_controller_api.route('/stock')
+@stock_controller_api.route("")
 class StockController(Resource):
     def __init__(self, api=None, *args, **kwargs):
         super().__init__(api, *args, **kwargs)

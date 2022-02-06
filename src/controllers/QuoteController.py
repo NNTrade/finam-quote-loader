@@ -11,8 +11,7 @@ from finam.exception import FinamObjectNotFoundError
 import datetime
 from finam import Timeframe
 
-quote_controller = Blueprint('Quote controller', __name__)
-quote_controller_api = Namespace('Quote controller', 'Get quotes')
+quote_controller_api = Namespace('quote', 'Get quotes')
 
 parser = reqparse.RequestParser()
 parser.add_argument('market', type=str, help='market name', location='args')
@@ -28,8 +27,7 @@ quote = {"DateTime": fields.DateTime("iso8601"), "Open": fields.Float, "High": f
 quoteModel = quote_controller_api.model('quote', quote)
 errorModel = quote_controller_api.model('error', models.fieldError)
 
-
-@quote_controller_api.route('/quote')
+@quote_controller_api.route("")
 class QuoteController(Resource):
     def __init__(self, api=None, *args, **kwargs):
         super().__init__(api, *args, **kwargs)
