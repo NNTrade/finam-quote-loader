@@ -1,4 +1,5 @@
 import logging
+from tkinter.messagebox import NO
 from flask import Blueprint
 from flask_restx import Namespace, Resource, fields
 from flask_restx import reqparse
@@ -14,6 +15,7 @@ from finam import Timeframe
 quote_controller_api = Namespace('quote', 'Get quotes')
 
 parser = reqparse.RequestParser()
+parser.add_argument('idx', type=str, help='stock index', location='args')
 parser.add_argument('market', type=str, help='market name', location='args')
 parser.add_argument('code', type=str, help='stock code', location='args')
 parser.add_argument(
@@ -40,15 +42,17 @@ class QuoteController(Resource):
         date_from = args['from']
         date_till = args['till']
         timeframe = args['tf']
-
-        if stock is None or \
+        idx = int(args["idx"])
+            
+        if (stock is None and idx is None) or \
                 date_from is None or \
                 date_till is None or \
                 timeframe is None or \
                 market is None:
             ex = ArgsException()
-            if stock is None:
-                ex.dic["code"] = "Code must be filled"
+            
+            if stock is None and idx is None:
+                ex.dic["code"] = "Code Or Idx must be filled"
             if market is None:
                 ex.dic["market"] = "Market must be filled"
             if date_from is None:
@@ -85,7 +89,14 @@ class QuoteController(Resource):
             ex.dic["till"] = "Cannot parse till date value"
 
         try:
-            stock_idx, market = by_code(stock, market_enum)
+            if stock is not None:
+                stock_idx, market = by_code(stock, market_enum)
+                if idx is not None and stock_idx != idx:
+                        ex.dic["code"] = "Code Idx != Idx"
+            else:
+                stock_idx = int(idx)
+                market = market_enum
+            
         except FinamObjectNotFoundError:
             ex.dic["code"] = "Cannot find record for code"
         except Exception:
