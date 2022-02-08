@@ -42,7 +42,7 @@ class QuoteController(Resource):
         date_from = args['from']
         date_till = args['till']
         timeframe = args['tf']
-        idx = int(args["idx"])
+        idx = int(args["idx"]) if args["idx"] is not None else None
             
         if (stock is None and idx is None) or \
                 date_from is None or \
