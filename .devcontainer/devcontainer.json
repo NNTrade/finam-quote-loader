@@ -32,7 +32,10 @@
 		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
 		"jupyter.alwaysTrustNotebooks": true,
 		"python.linting.pylintArgs": [
-			"--disable=import-error"
+			"--disable=import-error",
+			"--disable", "C0115", //(missing-class-docstring)
+			"--disable", "C0116", //(missing-function-docstring)
+			"--disable", "W1113", //(keyword-arg-before-vararg)
 		],
 		"jupyter.notebookFileRoot": "${workspaceFolder}"
 	},
