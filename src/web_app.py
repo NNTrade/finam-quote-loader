@@ -7,7 +7,7 @@ from .controllers.QuoteController import quote_controller_api
 
 
 app = Flask(__name__)
-api: Api = Api(app, version='2.0', title='Correlation calculator service',
+api: Api = Api(app, version='2.0', title='Finam quote load service',
                description='Service load stock data from Finam')
 
 #app.register_blueprint(timeframe_controller)
