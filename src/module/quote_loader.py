@@ -24,8 +24,8 @@ def load_quote(stock_idx:int, market: Market, start_date:datetime, end_date:date
                         day=int(str(row["<DATE>"])[6:8]),
                         hour=int(str(row["<TIME>"]).split(":")[0]),
                         minute=int(str(row["<TIME>"]).split(":")[1])), axis=1)
-    ret.drop(["<DATE>", "<TIME>"], axis=1, inplace=True)
-    ret = ret[~ret.index.duplicated(keep='first')]
+    ret = ret.drop(["<DATE>", "<TIME>"], axis=1).reset_index().sort_values(by=["DT"])
+    ret = ret[~ret["DT"].duplicated(keep='first')].reset_index()
     ret = ret.round(9)
     ret["DT"] = ret["DT"].map(lambda el: el.isoformat())
     return ret
