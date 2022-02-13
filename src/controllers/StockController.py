@@ -33,7 +33,7 @@ class StockController(Resource):
             try:
                 args["market"] = Market[market]  
             except Exception:
-                ex.dic["tf"] = "Cannot parse tf (Timeframe) value"
+                ex.dic["market"] = "Cannot parse market value"
             
         if code is not None:
             args["code"] = code
