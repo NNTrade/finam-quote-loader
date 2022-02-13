@@ -6,7 +6,7 @@ from datetime import date
 class quote_loader_args_parse_TestCase(unittest.TestCase):
 
     def test_get_args(self):
-        args={"code": "EURUSD", "market":"CURRENCIES_WORLD", "from":"2020-01-01","till":"2021-02-02", "tf":"HOURLY"}
+        args={"code": "EURUSD", "idx": None, "market":"CURRENCIES_WORLD", "from":"2020-01-01","till":"2021-02-02", "tf":"HOURLY"}
         
         asserted_idx, asserted_market, asserted_dt_from, asserted_dt_till, asserted_tf = QuoteController.verify_args(**args)
 
